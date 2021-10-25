@@ -14,11 +14,13 @@ The rules of the game are simple. Move the snake towards the object of the scree
 -When I press any of the arrow keys, the snake's head will move in that direction and the body will follow in a snake like fashion, where the later segments will take place of the segments preceding it. 
 -When the snake head meets with any object on the screen besides its body, it adds that object to its own body. 
 -When the snake head meets with any part of its body, the game is over.
+
 ###MVP Checklist
 -Does the snake head move around the grid depending on which arrow key is pressed? 
 -Does the snake append any object consumed to its own body?
 -Does the snake's body move in a snake-like fashion? 
 -Does the game end when the snake head collides with it's body?
+
 ###Strecth Goals:
 Make a simple, yet aesthetically pleasing design/color scheme. 
 Add visuals to when objects appears on screen 
