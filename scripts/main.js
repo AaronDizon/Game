@@ -10,8 +10,8 @@ const ctx = canvas.getContext('2d');
 const square = {
     x: 200,
     y: 200,
-    dx: 0,
-    dy: 0,
+    dx: 1,
+    dy: 1,
 }
 
 
@@ -19,7 +19,9 @@ const square = {
 
 //----------State Variables (state is the data that changes as program runs)
 let upId = 0;
-let rightID = 0;
+let rightId = 0;
+let leftId = 1;
+let downId = 1;
 
 //make a class with the 
 
@@ -38,6 +40,10 @@ document.body.addEventListener('keydown', changeDirection);
 function changeDirection(pressedKey) {
     if (pressedKey.keyCode === 37){
         //move to the left
+        if(requestAnimationFrame(changedLeft)){
+            return;
+        }
+        changedLeft()
     }
 
     if (pressedKey.keyCode === 38){
@@ -49,12 +55,11 @@ function changeDirection(pressedKey) {
         //move to the right
         changedRight();
         console.log(pressedKey)
-        
-
     }
 
     if (pressedKey.keyCode === 40){
         //move down
+        changedDown()
     }
 }
     //create random objects on the gameSpace 
@@ -70,39 +75,82 @@ function drawSquare(){
 function changedRight() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();
-    square.dx = 1;
-    square.dy = 0;
+    
     square.x += square.dx;
-    square.y += square.dy;
+    
     if(square.x === canvas.width){
         square.x = 0;
     }
-    if(upId !== 0){
-    cancelAnimationFrame(upId)
-    }
+    noAccelerationOnPress();
+
     rightId = window.requestAnimationFrame(changedRight);
 }
 function changedUp() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();
-    square.dx = 0; 
-    square.dy= 1;
-    square.x += square.dx 
+    
+    
     square.y += -square.dy;
-    if(square.y === 0){
+
+    if(square.y === 0) {
         square.y = canvas.height;
     }
-    if(rightId !== 0){
-        cancelAnimationFrame(rightId)
-        }
+
+    noAccelerationOnPress();
+
     upId = window.requestAnimationFrame(changedUp);
     
 }
-drawSquare()
+function changedLeft() {
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+    drawSquare();
+    
+    square.x += -square.dx ;
+
+    if(square.x === 0) {
+        square.x = canvas.width;
+    }
+
+    noAccelerationOnPress();
+
+    leftId = window.requestAnimationFrame(changedLeft);
+    
+}
+function changedDown() {
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+    drawSquare();
+    
+    
+    square.y += square.dy;
+
+    if(square.y === canvas.height) {
+        square.y = 0;
+    }
+   
+    noAccelerationOnPress();
+
+    downId = window.requestAnimationFrame(changedDown);
+    
+}
+function noAccelerationOnPress() {
+    if(leftId !== 0){
+        cancelAnimationFrame(leftId)
+    }
+    if(upId !== 0){
+        cancelAnimationFrame(upId)
+    }
+    if(rightId !== 0){
+        cancelAnimationFrame(rightId)
+    }
+    if(downId !== 0){
+        cancelAnimationFrame(downId)
+    }
+}
 
 //----------initialize all state, then call render (means to display or visualize data
 function gameLoop(){ //this is the game loop
- drawSquare
+ drawSquare()
 
 }
+gameLoop()
 
