@@ -42,6 +42,8 @@ document.body.addEventListener('keydown', changeDirection);
 function changeDirection(pressedKey) {
     if (pressedKey.keyCode === 37){
         //move to the left
+        
+        
         changedLeft()
         console.log(pressedKey);
     }
@@ -53,6 +55,7 @@ function changeDirection(pressedKey) {
     }
     if (pressedKey.keyCode === 39){
         //move to the right
+        
         changedRight();
         console.log(pressedKey);
     }
@@ -80,6 +83,11 @@ function keepFood() {
     //if collision is with object on gameSpace, then append that object to the body
     //if collision is with body, then game over
 //
+function checkCollision (){
+    if((square.x+20) >= foodX && (square.x+20) <= (foodX+20) && square.y > foodY && square.y < (foodY+20) || (square.x+20) >= foodX && (square.x+20) <= (foodX+20) && (square.y+20)>=foodY && (square.y+20) <= (foodY+20)){
+        createFoodSpot();
+    }
+}
 function drawSquare(){
     ctx.fillStyle='#6FFFE9';
     ctx.fillRect(square.x, square.y, 20, 20);
@@ -89,7 +97,7 @@ function changedRight() {
     drawSquare();
     keepFood()
     square.x += square.dx;
-    
+    checkCollision()
     if(square.x >= canvas.width){
         square.x = 0;
     }
