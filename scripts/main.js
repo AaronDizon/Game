@@ -8,8 +8,8 @@ const ctx = canvas.getContext('2d');
 
 //----------Constants (lookup data structures - that don't change)
 const square = {
-    x: 180,
-    y: 180,
+    x: 0,
+    y: 0,
     dx: 1,
     dy: 1,
 }
@@ -97,7 +97,7 @@ function drawSquare(){
 function changedRight() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();
-    keepFood()
+    keepFood();
     square.x += square.dx;
     checkCollision()
     if((square.x+20) >= canvas.width){
@@ -110,11 +110,11 @@ function changedRight() {
 function changedUp() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();    
-    keepFood()
+    keepFood();
     square.y += -square.dy;
     checkCollision()
     if(square.y <= 0) {
-        square.y = canvas.height;
+        square.y = canvas.height-20;
     }
     noAccelerationOnPress();
     upId = window.requestAnimationFrame(changedUp);
@@ -123,11 +123,11 @@ function changedUp() {
 function changedLeft() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();    
-    keepFood()
+    keepFood();
     square.x += -square.dx;
     checkCollision()
     if(square.x <= 0) {
-        square.x = canvas.width;
+        square.x = canvas.width-20;
     }
     noAccelerationOnPress();
     leftId = window.requestAnimationFrame(changedLeft);
@@ -135,7 +135,7 @@ function changedLeft() {
 function changedDown() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();
-    keepFood()
+    keepFood();
     square.y += square.dy;
     checkCollision()
     if((square.y+20) >= canvas.height) {
