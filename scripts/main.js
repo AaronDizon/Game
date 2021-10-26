@@ -100,7 +100,7 @@ function changedRight() {
     keepFood()
     square.x += square.dx;
     checkCollision()
-    if(square.x >= canvas.width){
+    if((square.x+20) >= canvas.width){
         square.x = 0;
     }
     noAccelerationOnPress();
@@ -138,7 +138,7 @@ function changedDown() {
     keepFood()
     square.y += square.dy;
     checkCollision()
-    if(square.y >= canvas.height) {
+    if((square.y+20) >= canvas.height) {
         square.y = 0;
     }
     noAccelerationOnPress();
