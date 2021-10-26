@@ -8,8 +8,8 @@ const ctx = canvas.getContext('2d');
 
 //----------Constants (lookup data structures - that don't change)
 const square = {
-    x: 0,
-    y: 0,
+    x: 180,
+    y: 180,
     dx: 3,
     dy: 3,
 }
@@ -65,17 +65,16 @@ function changeDirection(pressedKey) {
 }
     //create random objects on the gameSpace 
     //use Math.random() with regards to the canvas length and height
-// function createFoodSpot() {
-//     ctx.fillStyle='#9a031e'
-//     foodX = Math.floor(Math.random()*380) + 1
-//     foodY = Math.floor(Math.random()*380) + 1
+function createFoodSpot() {
+    ctx.fillStyle='#9a031e'
+    foodX = Math.floor(Math.random()*380) + 1
+    foodY = Math.floor(Math.random()*380) + 1
     
-//     console.log(food)
-// }
-// function keepFood() {
-//     ctx.fillStyle='#9a031e'
-//     food = ctx.fillRect( foodX, foodY, 20, 20)
-// }
+}
+function keepFood() {
+    ctx.fillStyle='#9a031e'
+    food = ctx.fillRect( foodX, foodY, 20, 20)
+}
 
 //detect collision of snake head to objects
     //if collision is with object on gameSpace, then append that object to the body
@@ -88,7 +87,7 @@ function drawSquare(){
 function changedRight() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();
-    //keepFood()
+    keepFood()
     square.x += square.dx;
     
     if(square.x >= canvas.width){
@@ -101,7 +100,7 @@ function changedRight() {
 function changedUp() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();    
-    //keepFood()
+    keepFood()
     square.y += -square.dy;
     if(square.y <= 0) {
         square.y = canvas.height;
@@ -113,7 +112,7 @@ function changedUp() {
 function changedLeft() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();    
-    //keepFood()
+    keepFood()
     square.x += -square.dx ;
     if(square.x <= 0) {
         square.x = canvas.width;
@@ -124,7 +123,7 @@ function changedLeft() {
 function changedDown() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();
-    //keepFood()
+    keepFood()
     square.y += square.dy;
     if(square.y >= canvas.height) {
         square.y = 0;
@@ -151,7 +150,7 @@ function noAccelerationOnPress() {
 //----------initialize all state, then call render (means to display or visualize data
 function gameStart(){ //this is the game loop
     drawSquare()
-    // createFoodSpot()    
+    createFoodSpot()    
 }
 gameStart()
 
