@@ -1,5 +1,4 @@
 # Snake Game
-First game ever made 
 
 ###Overview
 The game is a recreation of the classic snake game. In short, you navigate the snake and help it gorw by consuming whats on the game grid. I picked this game becuase its a classic game, worthy to pay tribute as well as it proving to use multiple js elements that I've learned from the course. 

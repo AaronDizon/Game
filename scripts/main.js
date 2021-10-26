@@ -7,10 +7,31 @@ const canvas = document.querySelector("#canvas")
 const ctx = canvas.getContext('2d');
 
 //----------Constants (lookup data structures - that don't change)
+const square = {
+    x: 200,
+    y: 200,
+    dx: 1,
+    dy:1,
+}
+
+function drawSquare(){
+    ctx.fillStyle='#6FFFE9';
+    ctx.fillRect(square.x, square.y, 20, 20);
+}
+function update() {
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+    drawSquare();
+    square.x += square.dx;
+    if(square.x === canvas.width){
+        square.x = 0;
+    }
+    requestAnimationFrame(update);
+}
+update()
+
 
 //----------State Variables (state is the data that changes as program runs)
-ctx.fillStyle='#6FFFE9';
-ctx.fillRect(0, 0, 20, 20);
+
 //make a class with the 
 
 //----------View
