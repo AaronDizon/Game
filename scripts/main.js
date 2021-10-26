@@ -10,13 +10,9 @@ const ctx = canvas.getContext('2d');
 const square = {
     x: 180,
     y: 180,
-    dx: 3,
-    dy: 3,
+    dx: 1,
+    dy: 1,
 }
-
-
-
-
 //----------State Variables (state is the data that changes as program runs)
 let upId = 0;
 let rightId = 0;
@@ -84,8 +80,14 @@ function keepFood() {
     //if collision is with body, then game over
 //
 function checkCollision (){
-    if((square.x+20) >= foodX && (square.x+20) <= (foodX+20) && square.y > foodY && square.y < (foodY+20) || (square.x+20) >= foodX && (square.x+20) <= (foodX+20) && (square.y+20)>=foodY && (square.y+20) <= (foodY+20)){
+    if((square.x+20) >= foodX && (square.x+20) <= (foodX+20) && square.y > foodY && square.y < (foodY+20) || 
+    (square.x+20) >= foodX && (square.x+20) <= (foodX+20) && (square.y+20)>=foodY && (square.y+20) <= (foodY+20)||
+    square.x >= foodX && square.x <= (foodX+20) && square.y >= foodY && square.y <= (foodY+20)){
         createFoodSpot();
+        if(square.dx < 8 && square.dy < 8){
+            square.dx += 1;
+            square.dy +=1;
+        }
     }
 }
 function drawSquare(){
@@ -110,6 +112,7 @@ function changedUp() {
     drawSquare();    
     keepFood()
     square.y += -square.dy;
+    checkCollision()
     if(square.y <= 0) {
         square.y = canvas.height;
     }
@@ -121,7 +124,8 @@ function changedLeft() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();    
     keepFood()
-    square.x += -square.dx ;
+    square.x += -square.dx;
+    checkCollision()
     if(square.x <= 0) {
         square.x = canvas.width;
     }
@@ -133,6 +137,7 @@ function changedDown() {
     drawSquare();
     keepFood()
     square.y += square.dy;
+    checkCollision()
     if(square.y >= canvas.height) {
         square.y = 0;
     }
