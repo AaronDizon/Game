@@ -8,10 +8,10 @@ const ctx = canvas.getContext('2d');
 
 //----------Constants (lookup data structures - that don't change)
 const square = {
-    x: 200,
-    y: 200,
-    dx: 1,
-    dy: 1,
+    x: 0,
+    y: 0,
+    dx: 3,
+    dy: 3,
 }
 
 
@@ -20,9 +20,11 @@ const square = {
 //----------State Variables (state is the data that changes as program runs)
 let upId = 0;
 let rightId = 0;
-let leftId = 1;
-let downId = 1;
-
+let leftId = 0;
+let downId = 0;
+let food;
+let foodX;
+let foodY;
 //make a class with the 
 
 //----------View
@@ -40,10 +42,8 @@ document.body.addEventListener('keydown', changeDirection);
 function changeDirection(pressedKey) {
     if (pressedKey.keyCode === 37){
         //move to the left
-        if(requestAnimationFrame(changedLeft)){
-            return;
-        }
         changedLeft()
+        console.log(pressedKey);
     }
 
     if (pressedKey.keyCode === 38){
@@ -54,16 +54,29 @@ function changeDirection(pressedKey) {
     if (pressedKey.keyCode === 39){
         //move to the right
         changedRight();
-        console.log(pressedKey)
+        console.log(pressedKey);
     }
 
     if (pressedKey.keyCode === 40){
         //move down
         changedDown()
+        console.log(pressedKey);
     }
 }
     //create random objects on the gameSpace 
     //use Math.random() with regards to the canvas length and height
+// function createFoodSpot() {
+//     ctx.fillStyle='#9a031e'
+//     foodX = Math.floor(Math.random()*380) + 1
+//     foodY = Math.floor(Math.random()*380) + 1
+    
+//     console.log(food)
+// }
+// function keepFood() {
+//     ctx.fillStyle='#9a031e'
+//     food = ctx.fillRect( foodX, foodY, 20, 20)
+// }
+
 //detect collision of snake head to objects
     //if collision is with object on gameSpace, then append that object to the body
     //if collision is with body, then game over
@@ -75,10 +88,10 @@ function drawSquare(){
 function changedRight() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();
-    
+    //keepFood()
     square.x += square.dx;
     
-    if(square.x === canvas.width){
+    if(square.x >= canvas.width){
         square.x = 0;
     }
     noAccelerationOnPress();
@@ -87,51 +100,39 @@ function changedRight() {
 }
 function changedUp() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawSquare();
-    
-    
+    drawSquare();    
+    //keepFood()
     square.y += -square.dy;
-
-    if(square.y === 0) {
+    if(square.y <= 0) {
         square.y = canvas.height;
     }
-
     noAccelerationOnPress();
-
     upId = window.requestAnimationFrame(changedUp);
     
 }
 function changedLeft() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawSquare();
-    
+    drawSquare();    
+    //keepFood()
     square.x += -square.dx ;
-
-    if(square.x === 0) {
+    if(square.x <= 0) {
         square.x = canvas.width;
     }
-
     noAccelerationOnPress();
-
     leftId = window.requestAnimationFrame(changedLeft);
-    
 }
 function changedDown() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawSquare();
-    
-    
+    //keepFood()
     square.y += square.dy;
-
-    if(square.y === canvas.height) {
+    if(square.y >= canvas.height) {
         square.y = 0;
     }
-   
     noAccelerationOnPress();
-
     downId = window.requestAnimationFrame(changedDown);
-    
 }
+
 function noAccelerationOnPress() {
     if(leftId !== 0){
         cancelAnimationFrame(leftId)
@@ -148,9 +149,9 @@ function noAccelerationOnPress() {
 }
 
 //----------initialize all state, then call render (means to display or visualize data
-function gameLoop(){ //this is the game loop
- drawSquare()
-
+function gameStart(){ //this is the game loop
+    drawSquare()
+    // createFoodSpot()    
 }
-gameLoop()
+gameStart()
 
