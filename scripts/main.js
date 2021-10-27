@@ -28,8 +28,7 @@ class Square {
     }
 }
 const head = new Square(0,0,1,1);
-let pretail = head;
-let tail = head;
+
 
 let snake =[];
 snake.push(square);
@@ -40,6 +39,7 @@ let upId = 0;
 let rightId = 0;
 let leftId = 0;
 let downId = 0;
+let bodyCount = 0
 
 
 //make a class with the 
@@ -56,13 +56,20 @@ document.body.addEventListener('keydown', changeDirection);
 //----------CONTROLLER  (Functions)
 function drawsnake(){
     ctx.fillStyle='#6FFFE9';
+    ctx.fillRect(square.x, square.y, 20, 20)
     for (i = 0; i < snake.length; i++){
         ctx.fillRect(snake[i].x, snake[i].y, 20, 20);
     }
 }
 function growBody(){
-     snake.push(ctxfillRect(snake[0].x, snake[0].y, 20, 20))
-     console.log(snake)
+    const bodyPart = {
+        x: square.x, 
+        y: square.y, 
+        dx: square.dx, 
+        dy: square.dy
+    }
+    snake.push(bodyPart)
+    console.log(snake)
  }
 //control movement 
 //once key is pressed, looks for which key is pressed and then change direction accordingly 
@@ -132,7 +139,8 @@ function changedRight() {
     square.x += square.dx;
     if (checkGeneralCollision(square, food) === true){
         createFoodSpot()
-        accelerate()
+        growBody()
+        //accelerate()
     }
     if((square.x+20) >= canvas.width){
         square.x = 0;
@@ -148,7 +156,8 @@ function changedUp() {
     square.y += -square.dy;
     if (checkGeneralCollision(square, food) === true){
         createFoodSpot()
-        accelerate()
+        growBody()
+        //accelerate()
     }   
     if(square.y <= 0) {
         square.y = canvas.height-20;
@@ -164,7 +173,8 @@ function changedLeft() {
     square.x += -square.dx;
     if (checkGeneralCollision(square, food) === true){
         createFoodSpot()
-        accelerate()
+        growBody()
+        //accelerate()
     }    
     if(square.x <= 0) {
         square.x = canvas.width-20;
@@ -179,7 +189,8 @@ function changedDown() {
     square.y += square.dy;
     if (checkGeneralCollision(square, food) === true){
         createFoodSpot()
-        accelerate()
+        growBody()
+        //accelerate()
     }
     if((square.y+20) >= canvas.height) {
         square.y = 0;
