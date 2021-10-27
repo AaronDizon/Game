@@ -33,6 +33,8 @@ let tail = head;
 
 let snake =[];
 snake.push(square);
+
+console.log(snake);
 //----------State Variables (state is the data that changes as program runs)
 let upId = 0;
 let rightId = 0;
@@ -52,37 +54,42 @@ document.body.addEventListener('keydown', changeDirection);
 
 
 //----------CONTROLLER  (Functions)
+function drawsnake(){
+    ctx.fillStyle='#6FFFE9';
+    for (i = 0; i < snake.length; i++){
+        ctx.fillRect(snake[i].x, snake[i].y, 20, 20);
+    }
+}
+function growBody(){
+     snake.push(ctxfillRect(snake[0].x, snake[0].y, 20, 20))
+     console.log(snake)
+ }
 //control movement 
-    //once key is pressed, looks for which key is pressed and then change direction accordingly 
+//once key is pressed, looks for which key is pressed and then change direction accordingly 
 function changeDirection(pressedKey) {
     if (pressedKey.keyCode === 37){
         //move to the left
-        
-        
         changedLeft()
         console.log(pressedKey);
     }
-
     if (pressedKey.keyCode === 38){
         //move up
         changedUp();
         console.log(pressedKey);
     }
     if (pressedKey.keyCode === 39){
-        //move to the right
-        
+        //move to the right   
         changedRight();
         console.log(pressedKey);
     }
-
     if (pressedKey.keyCode === 40){
         //move down
         changedDown()
         console.log(pressedKey);
     }
 }
-    //create random objects on the gameSpace 
-    //use Math.random() with regards to the canvas length and height
+//create random objects on the gameSpace 
+//use Math.random() with regards to the canvas length and height
 function createFoodSpot() {
     ctx.fillStyle='#9a031e'
     food.x = Math.floor(Math.random()*380) + 1
@@ -104,17 +111,6 @@ function keepFood() {
 //     square.x >= food.x && square.x <= (food.x+20) && square.y >= food.y && square.y <= (food.y+20)){
         
         
-//     }
-// }
-function accelerate() {
- 
-     if(square.dx < 8 && square.dy < 8){
-         square.dx += 1;
-         square.dy +=1;
-     }
-}
-//     snake.push(ctxfillRect(snake[snake.length]-1).x)
-// }
 function checkGeneralCollision(square1, square2) {
     if((square1.x+20) >= square2.x && (square1.x+20) <= (square2.x+20) && square1.y > square2.y && square1.y < (square2.y+20) || 
     (square1.x+20) >= square2.x && (square1.x+20) <= (square2.x+20) && (square.y+20)>=square2.y && (square.y+20) <= (square2.y+20)||
@@ -122,11 +118,12 @@ function checkGeneralCollision(square1, square2) {
         return true;
     }
 }
-function drawsnake(){
-    ctx.fillStyle='#6FFFE9';
-    for (i = 0; i < snake.length; i++){
-        ctx.fillRect(snake[i].x, snake[i].y, 20, 20);
-    }
+function accelerate() {
+ 
+     if(square.dx < 8 && square.dy < 8){
+         square.dx += 1;
+         square.dy +=1;
+     }
 }
 function changedRight() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
