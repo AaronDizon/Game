@@ -13,14 +13,21 @@ const square = {
     dx: 1,
     dy: 1,
 }
+
+const food = {
+    x: -1,
+    y: -1,
+}
+
+// let snake =[];
+// snake.append(square);
 //----------State Variables (state is the data that changes as program runs)
 let upId = 0;
 let rightId = 0;
 let leftId = 0;
 let downId = 0;
-let food;
-let foodX;
-let foodY;
+
+
 //make a class with the 
 
 //----------View
@@ -66,13 +73,13 @@ function changeDirection(pressedKey) {
     //use Math.random() with regards to the canvas length and height
 function createFoodSpot() {
     ctx.fillStyle='#9a031e'
-    foodX = Math.floor(Math.random()*380) + 1
-    foodY = Math.floor(Math.random()*380) + 1
+    food.x = Math.floor(Math.random()*380) + 1
+    food.y = Math.floor(Math.random()*380) + 1
     
 }
 function keepFood() {
     ctx.fillStyle='#9a031e'
-    food = ctx.fillRect( foodX, foodY, 20, 20)
+    ctx.fillRect( food.x, food.y, 20, 20)
 }
 
 //detect collision of snake head to objects
@@ -80,14 +87,25 @@ function keepFood() {
     //if collision is with body, then game over
 //
 function checkCollision (){
-    if((square.x+20) >= foodX && (square.x+20) <= (foodX+20) && square.y > foodY && square.y < (foodY+20) || 
-    (square.x+20) >= foodX && (square.x+20) <= (foodX+20) && (square.y+20)>=foodY && (square.y+20) <= (foodY+20)||
-    square.x >= foodX && square.x <= (foodX+20) && square.y >= foodY && square.y <= (foodY+20)){
-        createFoodSpot();
-        if(square.dx < 8 && square.dy < 8){
-            square.dx += 1;
-            square.dy +=1;
-        }
+    if((square.x+20) >= food.x && (square.x+20) <= (food.x+20) && square.y > food.y && square.y < (food.y+20) || 
+    (square.x+20) >= food.x && (square.x+20) <= (food.x+20) && (square.y+20)>=food.y && (square.y+20) <= (food.y+20)||
+    square.x >= food.x && square.x <= (food.x+20) && square.y >= food.y && square.y <= (food.y+20)){
+        
+        
+    }
+}
+function accelerate() {
+    createFoodSpot();
+    if(square.dx < 8 && square.dy < 8){
+        square.dx += 1;
+        square.dy +=1;
+    }
+}
+function checkGeneralCollision(square1, square2) {
+    if((square1.x+20) >= square2.x && (square1.x+20) <= (square2.x+20) && square1.y > square2.y && square1.y < (square2.y+20) || 
+    (square1.x+20) >= square2.x && (square1.x+20) <= (square2.x+20) && (square.y+20)>=square2.y && (square.y+20) <= (square2.y+20)||
+    square1.x >= square2.x && square1.x <= (square2.x+20) && square1.y >= square2.y && square1.y <= (square2.y+20)){
+        return true;
     }
 }
 function drawSquare(){
@@ -99,7 +117,9 @@ function changedRight() {
     drawSquare();
     keepFood();
     square.x += square.dx;
-    checkCollision()
+    if (checkGeneralCollision(square, food) === true){
+        accelerate()
+    }
     if((square.x+20) >= canvas.width){
         square.x = 0;
     }
@@ -112,7 +132,9 @@ function changedUp() {
     drawSquare();    
     keepFood();
     square.y += -square.dy;
-    checkCollision()
+    if (checkGeneralCollision(square, food) === true){
+        accelerate()
+    }   
     if(square.y <= 0) {
         square.y = canvas.height-20;
     }
@@ -125,7 +147,9 @@ function changedLeft() {
     drawSquare();    
     keepFood();
     square.x += -square.dx;
-    checkCollision()
+    if (checkGeneralCollision(square, food) === true){
+        accelerate()
+    }    
     if(square.x <= 0) {
         square.x = canvas.width-20;
     }
@@ -137,7 +161,9 @@ function changedDown() {
     drawSquare();
     keepFood();
     square.y += square.dy;
-    checkCollision()
+    if (checkGeneralCollision(square, food) === true){
+        accelerate()
+    }
     if((square.y+20) >= canvas.height) {
         square.y = 0;
     }
