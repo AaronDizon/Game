@@ -7,13 +7,24 @@ const canvas = document.querySelector("#canvas")
 const ctx = canvas.getContext('2d');
 
 //----------Constants (lookup data structures - that don't change)
-const square = {
-    x: 0,
+const head = {
+    x: 40,
     y: 0,
     dx: 3,
     dy: 3,
 }
-
+const pretail = {
+    x: 20,
+    y: 0,
+    dx: head.dx,
+    dy: head.dy,
+}
+const tail = {
+    x: 0,
+    y: 0,
+    dx: head.dx,
+    dy: head.dy,
+}
 const food = {
     x: -1,
     y: -1,
@@ -27,11 +38,12 @@ class Square {
         this.dy = dy;
     }
 }
-const head = new Square(0,0,1,1);
 
 
 let snake =[];
-snake.push(square);
+snake.unshift(tail)
+snake.unshift(pretail)
+
 
 console.log(snake);
 //----------State Variables (state is the data that changes as program runs)
@@ -39,7 +51,7 @@ let upId = 0;
 let rightId = 0;
 let leftId = 0;
 let downId = 0;
-let bodyCount = 0
+let bodyCount = 2;
 
 
 //make a class with the 
@@ -50,23 +62,65 @@ let bodyCount = 0
 
 //----------Event Listeners 
 //keydown 
-document.body.addEventListener('keydown', changeDirection);
+
 
 
 //----------CONTROLLER  (Functions)
 function drawsnake(){
     ctx.fillStyle='#6FFFE9';
-    ctx.fillRect(square.x, square.y, 20, 20)
+    ctx.fillRect(head.x, head.y, 20, 20)
     for (i = 0; i < snake.length; i++){
         ctx.fillRect(snake[i].x, snake[i].y, 20, 20);
     }
 }
-function growBody(){
+function moveBody() {
     const bodyPart = {
-        x: square.x, 
-        y: square.y, 
-        dx: square.dx, 
-        dy: square.dy
+        x: head.x-20, 
+        y: head.y, 
+        dx: head.dx, 
+        dy: head.dy,
+    }
+    snake.push(bodyPart)
+    if(snake.length > bodyCount) {
+        snake.shift()
+    }
+}
+function growBodyFromLeft(){
+    const bodyPart = {
+        x: snake[0].x-20, 
+        y: snake[0].y, 
+        dx: snake[0].dx, 
+        dy: snake[0].dy,
+    }
+    snake.push(bodyPart)
+    console.log(snake)
+ }
+function growBodyFromRight(){
+    const bodyPart = {
+        x: snake[0].x+20, 
+        y: snake[0].y, 
+        dx: snake[0].dx, 
+        dy: snake[0].dy,
+    }
+    snake.push(bodyPart)
+    console.log(snake)
+ }
+function growBodyFromBelow(){
+    const bodyPart = {
+        x: snake[0].x, 
+        y: snake[0].y+20, 
+        dx: snake[0].dx, 
+        dy: snake[0].dy,
+    }
+    snake.push(bodyPart)
+    console.log(snake)
+ }
+function growBodyFromAbove(){
+    const bodyPart = {
+        x: snake[0].x, 
+        y: snake[0].y-20, 
+        dx: snake[0].dx, 
+        dy: snake[0].dy,
     }
     snake.push(bodyPart)
     console.log(snake)
@@ -88,6 +142,8 @@ function changeDirection(pressedKey) {
         //move to the right   
         changedRight();
         console.log(pressedKey);
+        console.log(head);
+        console.log(snake);
     }
     if (pressedKey.keyCode === 40){
         //move down
@@ -113,37 +169,46 @@ function keepFood() {
     //if collision is with body, then game over
 //
 // function checkCollision (){
-//     if((square.x+20) >= food.x && (square.x+20) <= (food.x+20) && square.y > food.y && square.y < (food.y+20) || 
-//     (square.x+20) >= food.x && (square.x+20) <= (food.x+20) && (square.y+20)>=food.y && (square.y+20) <= (food.y+20)||
-//     square.x >= food.x && square.x <= (food.x+20) && square.y >= food.y && square.y <= (food.y+20)){
+//     if((head.x+20) >= food.x && (head.x+20) <= (food.x+20) && head.y > food.y && head.y < (food.y+20) || 
+//     (head.x+20) >= food.x && (head.x+20) <= (food.x+20) && (head.y+20)>=food.y && (head.y+20) <= (food.y+20)||
+//     head.x >= food.x && head.x <= (food.x+20) && head.y >= food.y && head.y <= (food.y+20)){
         
         
-function checkGeneralCollision(square1, square2) {
-    if((square1.x+20) >= square2.x && (square1.x+20) <= (square2.x+20) && square1.y > square2.y && square1.y < (square2.y+20) || 
-    (square1.x+20) >= square2.x && (square1.x+20) <= (square2.x+20) && (square.y+20)>=square2.y && (square.y+20) <= (square2.y+20)||
-    square1.x >= square2.x && square1.x <= (square2.x+20) && square1.y >= square2.y && square1.y <= (square2.y+20)){
+function checkGeneralCollision(head1, head2) {
+    if((head1.x+20) >= head2.x && (head1.x+20) <= (head2.x+20) && head1.y > head2.y && head1.y < (head2.y+20) || 
+    (head1.x+20) >= head2.x && (head1.x+20) <= (head2.x+20) && (head.y+20)>=head2.y && (head.y+20) <= (head2.y+20)||
+    head1.x >= head2.x && head1.x <= (head2.x+20) && head1.y >= head2.y && head1.y <= (head2.y+20)){
         return true;
     }
 }
 function accelerate() {
  
-     if(square.dx < 8 && square.dy < 8){
-         square.dx += 1;
-         square.dy +=1;
+     if(head.dx < 8 && head.dy < 8){
+         head.dx += 1;
+         head.dy +=1;
      }
 }
 function changedRight() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();
     keepFood();
-    square.x += square.dx;
-    if (checkGeneralCollision(square, food) === true){
+    for (let i = 1; i < snake.length; i++){
+        snake[i].x = snake[i-1].x-20;
+        snake[i].y = snake[i-1].y;
+    }
+    
+    snake[0].x = (head.x-20)
+    snake[0].y = (head.y)
+    head.x += head.dx;
+   
+
+    if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
-        growBody()
+        growBodyFromLeft()
         //accelerate()
     }
-    if((square.x+20) >= canvas.width){
-        square.x = 0;
+    if((head.x+20) >= canvas.width){
+        head.x = 0;
     }
     noAccelerationOnPress();
 
@@ -153,14 +218,23 @@ function changedUp() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();    
     keepFood();
-    square.y += -square.dy;
-    if (checkGeneralCollision(square, food) === true){
+    for (let i = 1; i < snake.length; i++){
+        snake[i].x = snake[i-1].x;
+        snake[i].y = snake[i-1].y;
+    }
+    
+    snake[0].x = (head.x)
+    snake[0].y = (head.y+20)
+    head.y += -head.dy;
+    
+
+    if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
-        growBody()
+        growBodyFromBelow()
         //accelerate()
     }   
-    if(square.y <= 0) {
-        square.y = canvas.height-20;
+    if(head.y <= 0) {
+        head.y = canvas.height-20;
     }
     noAccelerationOnPress();
     upId = window.requestAnimationFrame(changedUp);
@@ -170,14 +244,23 @@ function changedLeft() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();    
     keepFood();
-    square.x += -square.dx;
-    if (checkGeneralCollision(square, food) === true){
+    for (let i = 1; i < snake.length; i++){
+        snake[i].x = snake[i-1].x;
+        snake[i].y = snake[i-1].y;
+    }
+    
+    snake[0].x = (head.x+20)
+    snake[0].y = (head.y)
+    head.x += -head.dx;
+   
+    if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
-        growBody()
+        growBodyFromRight()
+        
         //accelerate()
     }    
-    if(square.x <= 0) {
-        square.x = canvas.width-20;
+    if(head.x <= 0) {
+        head.x = canvas.width-20;
     }
     noAccelerationOnPress();
     leftId = window.requestAnimationFrame(changedLeft);
@@ -186,14 +269,23 @@ function changedDown() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();
     keepFood();
-    square.y += square.dy;
-    if (checkGeneralCollision(square, food) === true){
+    for (let i = 1; i < snake.length; i++){
+        snake[i].x = snake[i-1].x;
+        snake[i].y = snake[i-1].y;
+    }
+    
+    snake[0].x = head.x
+    snake[0].y = (head.y-20)
+    head.y += head.dy;
+   
+
+    if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
-        growBody()
+        growBodyFromAbove()
         //accelerate()
     }
-    if((square.y+20) >= canvas.height) {
-        square.y = 0;
+    if((head.y+20) >= canvas.height) {
+        head.y = 0;
     }
     noAccelerationOnPress();
     downId = window.requestAnimationFrame(changedDown);
@@ -216,8 +308,10 @@ function noAccelerationOnPress() {
 
 //----------initialize all state, then call render (means to display or visualize data
 function gameStart(){ //this is the game loop
+    document.body.addEventListener('keydown', changeDirection);
     drawsnake()
     createFoodSpot()    
+    console.log(snake)
 }
 gameStart()
 
