@@ -10,8 +10,8 @@ const ctx = canvas.getContext('2d');
 const square = {
     x: 0,
     y: 0,
-    dx: 1,
-    dy: 1,
+    dx: 3,
+    dy: 3,
 }
 
 const food = {
@@ -19,8 +19,20 @@ const food = {
     y: -1,
 }
 
-// let snake =[];
-// snake.append(square);
+class Square {
+    construction(x, y, dx, dy){
+        this.x = x;
+        this.y = y;
+        this.dx = dx;
+        this.dy = dy;
+    }
+}
+const head = new Square(0,0,1,1);
+let pretail = head;
+let tail = head;
+
+let snake =[];
+snake.push(square);
 //----------State Variables (state is the data that changes as program runs)
 let upId = 0;
 let rightId = 0;
@@ -86,21 +98,23 @@ function keepFood() {
     //if collision is with object on gameSpace, then append that object to the body
     //if collision is with body, then game over
 //
-function checkCollision (){
-    if((square.x+20) >= food.x && (square.x+20) <= (food.x+20) && square.y > food.y && square.y < (food.y+20) || 
-    (square.x+20) >= food.x && (square.x+20) <= (food.x+20) && (square.y+20)>=food.y && (square.y+20) <= (food.y+20)||
-    square.x >= food.x && square.x <= (food.x+20) && square.y >= food.y && square.y <= (food.y+20)){
+// function checkCollision (){
+//     if((square.x+20) >= food.x && (square.x+20) <= (food.x+20) && square.y > food.y && square.y < (food.y+20) || 
+//     (square.x+20) >= food.x && (square.x+20) <= (food.x+20) && (square.y+20)>=food.y && (square.y+20) <= (food.y+20)||
+//     square.x >= food.x && square.x <= (food.x+20) && square.y >= food.y && square.y <= (food.y+20)){
         
         
-    }
-}
+//     }
+// }
 function accelerate() {
-    createFoodSpot();
-    if(square.dx < 8 && square.dy < 8){
-        square.dx += 1;
-        square.dy +=1;
-    }
+ 
+     if(square.dx < 8 && square.dy < 8){
+         square.dx += 1;
+         square.dy +=1;
+     }
 }
+//     snake.push(ctxfillRect(snake[snake.length]-1).x)
+// }
 function checkGeneralCollision(square1, square2) {
     if((square1.x+20) >= square2.x && (square1.x+20) <= (square2.x+20) && square1.y > square2.y && square1.y < (square2.y+20) || 
     (square1.x+20) >= square2.x && (square1.x+20) <= (square2.x+20) && (square.y+20)>=square2.y && (square.y+20) <= (square2.y+20)||
@@ -108,16 +122,19 @@ function checkGeneralCollision(square1, square2) {
         return true;
     }
 }
-function drawSquare(){
+function drawsnake(){
     ctx.fillStyle='#6FFFE9';
-    ctx.fillRect(square.x, square.y, 20, 20);
+    for (i = 0; i < snake.length; i++){
+        ctx.fillRect(snake[i].x, snake[i].y, 20, 20);
+    }
 }
 function changedRight() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawSquare();
+    drawsnake();
     keepFood();
     square.x += square.dx;
     if (checkGeneralCollision(square, food) === true){
+        createFoodSpot()
         accelerate()
     }
     if((square.x+20) >= canvas.width){
@@ -129,10 +146,11 @@ function changedRight() {
 }
 function changedUp() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawSquare();    
+    drawsnake();    
     keepFood();
     square.y += -square.dy;
     if (checkGeneralCollision(square, food) === true){
+        createFoodSpot()
         accelerate()
     }   
     if(square.y <= 0) {
@@ -144,10 +162,11 @@ function changedUp() {
 }
 function changedLeft() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawSquare();    
+    drawsnake();    
     keepFood();
     square.x += -square.dx;
     if (checkGeneralCollision(square, food) === true){
+        createFoodSpot()
         accelerate()
     }    
     if(square.x <= 0) {
@@ -158,10 +177,11 @@ function changedLeft() {
 }
 function changedDown() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawSquare();
+    drawsnake();
     keepFood();
     square.y += square.dy;
     if (checkGeneralCollision(square, food) === true){
+        createFoodSpot()
         accelerate()
     }
     if((square.y+20) >= canvas.height) {
@@ -188,7 +208,7 @@ function noAccelerationOnPress() {
 
 //----------initialize all state, then call render (means to display or visualize data
 function gameStart(){ //this is the game loop
-    drawSquare()
+    drawsnake()
     createFoodSpot()    
 }
 gameStart()
