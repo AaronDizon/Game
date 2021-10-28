@@ -8,10 +8,10 @@ const ctx = canvas.getContext('2d');
 
 //----------Constants (lookup data structures - that don't change)
 const head = {
-    x: 40,
+    x: 0,
     y: 0,
-    dx: 2.5,
-    dy: 2.5,
+    dx: 3,
+    dy: 3,
 }
 const pretail = {
     x: 20,
@@ -38,8 +38,8 @@ class Square {
 
 
 let snake =[];
-snake.push(pretail)
-snake.push(tail)
+// snake.push(pretail)
+// snake.push(tail)
 
 
 console.log(snake);
@@ -164,7 +164,7 @@ function keepFood() {
     //if collision is with body, then game over
 //
 // function checkCollision (){
-//     if((head.x+20) >= food.x && (head.x+20) <= (food.x+20) && head.y > food.y && head.y < (food.y+20) || 
+//     if((head.x+20) >= food.x && (head.x+20) <= (food.x+20) && head.y > food.y && head.y < (food.y+20) ||  
 //     (head.x+20) >= food.x && (head.x+20) <= (food.x+20) && (head.y+20)>=food.y && (head.y+20) <= (food.y+20)||
 //     head.x >= food.x && head.x <= (food.x+20) && head.y >= food.y && head.y <= (food.y+20)){
         
