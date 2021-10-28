@@ -10,20 +10,18 @@ const ctx = canvas.getContext('2d');
 const head = {
     x: 40,
     y: 0,
-    dx: 3,
-    dy: 3,
+    dx: 2.5,
+    dy: 2.5,
 }
 const pretail = {
     x: 20,
     y: 0,
-    dx: head.dx,
-    dy: head.dy,
+
 }
 const tail = {
     x: 0,
     y: 0,
-    dx: head.dx,
-    dy: head.dy,
+
 }
 const food = {
     x: -1,
@@ -31,18 +29,17 @@ const food = {
 }
 
 class Square {
-    construction(x, y, dx, dy){
+    construction(x, y,){
         this.x = x;
         this.y = y;
-        this.dx = dx;
-        this.dy = dy;
+
     }
 }
 
 
 let snake =[];
-snake.unshift(tail)
-snake.unshift(pretail)
+snake.push(pretail)
+snake.push(tail)
 
 
 console.log(snake);
@@ -75,24 +72,23 @@ function drawsnake(){
         ctx.fillRect(snake[i].x, snake[i].y, 20, 20);
     }
 }
-function moveBody() {
-    const bodyPart = {
-        x: head.x-20, 
-        y: head.y, 
-        dx: head.dx, 
-        dy: head.dy,
-    }
-    snake.push(bodyPart)
-    if(snake.length > bodyCount) {
-        snake.shift()
-    }
-}
+// function moveBody() {
+//     const bodyPart = {
+//         x: head.x-20, 
+//         y: head.y, 
+//         dx: head.dx, 
+//         dy: head.dy,
+//     }
+//     snake.push(bodyPart)
+//     if(snake.length > bodyCount) {
+//         snake.shift()
+//     }
+// }
 function growBodyFromLeft(){
     const bodyPart = {
         x: head.x-20, 
         y: head.y, 
-        dx: snake[0].dx, 
-        dy: snake[0].dy,
+  
     }
     snake.push(bodyPart)
     console.log(snake)
@@ -101,8 +97,7 @@ function growBodyFromRight(){
     const bodyPart = {
         x: head.x+20, 
         y: head.y, 
-        dx: snake[0].dx, 
-        dy: snake[0].dy,
+ 
     }
     snake.push(bodyPart)
     console.log(snake)
@@ -111,8 +106,7 @@ function growBodyFromBelow(){
     const bodyPart = {
         x: head.x, 
         y: head.y+20, 
-        dx: snake[0].dx, 
-        dy: snake[0].dy,
+
     }
     snake.push(bodyPart)
     console.log(snake)
@@ -121,8 +115,7 @@ function growBodyFromAbove(){
     const bodyPart = {
         x: head.x, 
         y: head.y-20, 
-        dx: snake[0].dx, 
-        dy: snake[0].dy,
+  
     }
     snake.push(bodyPart)
     console.log(snake)
@@ -195,16 +188,16 @@ function changedRight() {
     drawsnake();
     keepFood();
     head.x += head.dx;
-    
-    for (let i = 1; i < snake.length; i++){
-        if (i )
-        snake[i].y = snake[i-1].y;
-        snake[i].x = snake[i-1].x-20;
-    }
-    
-    snake[0].x = (head.x-20)
-    snake[0].y = (head.y)
 
+    
+    // for (let i = 1; i < snake.length; i++){
+    //     snake[i].y = snake[i-1].y;
+    //     snake[i].x = snake[i-1].x;
+    // }
+    
+    // snake[0].x = (head.x-20)
+    // snake[0].y = (head.y)
+    
    
 
     if (checkGeneralCollision(head, food) === true){
@@ -223,14 +216,15 @@ function changedUp() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();    
     keepFood();
-    for (let i = 1; i < snake.length; i++){
-        snake[i].x = snake[i-1].x;
-        snake[i].y = snake[i-1].y+20;
-    }
-    
-    snake[0].x = head.x
-    snake[0].y = head.y
     head.y += -head.dy;
+    // for (let i = 1; i < snake.length; i++){
+    //     if (i )
+    //     snake[i].y = snake[i-1].y;
+    //     snake[i].x = snake[i-1].x;
+    // }
+    
+    // snake[0].x = (head.x)
+    // snake[0].y = (head.y+20)
     
 
     if (checkGeneralCollision(head, food) === true){
@@ -249,15 +243,16 @@ function changedLeft() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();    
     keepFood();
-    for (let i = 1; i < snake.length; i++){
-        snake[i].x = snake[i-1].x+20;
-        snake[i].y = snake[i-1].y;
-    }
-    
-    snake[0].x = head.x
-    snake[0].y = head.y
     head.x += -head.dx;
-   
+    // for (let i = 1; i < snake.length; i++){
+    //     if (i )
+    //     snake[i].y = snake[i-1].y;
+    //     snake[i].x = snake[i-1].x;
+    // }
+    
+    // snake[0].x = (head.x+20)
+    // snake[0].y = (head.y)
+    
     if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
         growBodyFromRight()
@@ -274,21 +269,16 @@ function changedDown() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();
     keepFood();
-    let bendPosition = head.x
-    for (let i = 0; i < snake.length; i++){
-        if(i < bendPosition){
-            snake[i].y = snake[i].y + 3
-        }
-        else {
-            for(let j = i+1; j < snake.length; j++){
-                snake[j].x = snake[j].x + 3
-            }
-        }
-    }
     
-    snake[0].x = head.x
-    snake[0].y = head.y
     head.y += head.dy;
+    // for (let i = 1; i < snake.length; i++){
+    //     if (i )
+    //     snake[i].y = snake[i-1].y;
+    //     snake[i].x = snake[i-1].x;
+    // }
+    
+    // snake[0].x = (head.x)
+    // snake[0].y = (head.y-20)
    
 
     if (checkGeneralCollision(head, food) === true){
@@ -324,6 +314,12 @@ function gameStart(){ //this is the game loop
     drawsnake()
     createFoodSpot()    
     console.log(snake)
+
 }
 gameStart()
 
+// for (let i = 0; i < snake.length; i++){
+//     if (checkGeneralCollision(head, snake[i]) === true){
+//         alert(`gameover`)
+//     }
+// }
