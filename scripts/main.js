@@ -42,7 +42,7 @@ let rightId = 0;
 let leftId = 0;
 let downId = 0;
 let gameIsLive = false;
-
+let gameScore = 0;
 
 //make a class with the 
 
@@ -58,10 +58,13 @@ start.addEventListener('click', gameStart)
 //----------CONTROLLER  (Functions)
 //----------initialize all state, then call render (means to display or visualize data
 function gameStart(){ //this is the game loop
+    ctx.clearRect(0,0, canvas.width, canvas.height);
     gameIsLive = true;
     head.x = 0;
     head.y = 0;
     snake = []
+    gameScore = 0;
+    scoreNum.innerHTML = gameScore;
     //console.log(gameIsLive)
     
     if (gameIsLive === true){
@@ -190,9 +193,6 @@ function changedRight() {
     
     for (let i = 0; i < snake.length; i++){
         if (checkGeneralCollision(head, snake[i]) === true){
-            head.x = 0;
-            head.y = 0;
-            snake = []
             gameIsLive = false;
             console.log(gameIsLive);
         }
@@ -200,6 +200,8 @@ function changedRight() {
     if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
         growBodyFromLeft()
+        gameScore += 1;
+        scoreNum.innerHTML = gameScore;
     }
     if((head.x+20) >= canvas.width){
         head.x = 0;
@@ -210,9 +212,6 @@ function changedRight() {
 
     if(gameIsLive === false) {
         cancelAnimationFrame(rightId)
-        head.x = 0;
-        head.y = 0;
-        snake = []
         alert(`game over`);
         document.body.removeEventListener('keydown', changeDirection )
         start.addEventListener('click', gameStart)
@@ -232,6 +231,8 @@ function changedUp() {
     if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
         growBodyFromBelow()
+        gameScore += 1;
+        scoreNum.innerHTML = gameScore;
     }   
     if(head.y <= 0) {
         head.y = canvas.height-20;
@@ -242,9 +243,6 @@ function changedUp() {
 
     if(gameIsLive === false) {
         cancelAnimationFrame(upId)
-        head.x = 0;
-        head.y = 0;
-        snake = []
         alert(`game over`);
         document.body.removeEventListener('keydown', changeDirection )
         start.addEventListener('click', gameStart)
@@ -266,6 +264,8 @@ function changedLeft() {
     if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
         growBodyFromRight()
+        gameScore += 1;
+        scoreNum.innerHTML = gameScore;
     }    
     if(head.x <= 0) {
         head.x = canvas.width-20;
@@ -276,9 +276,6 @@ function changedLeft() {
 
     if(gameIsLive === false) {
         cancelAnimationFrame(leftId)
-        head.x = 0;
-        head.y = 0;
-        snake = []
         alert(`game over`);
         document.body.removeEventListener('keydown', changeDirection )
         start.addEventListener('click', gameStart)
@@ -298,6 +295,8 @@ function changedDown() {
     if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
         growBodyFromAbove()
+        gameScore += 1;
+        scoreNum.innerHTML = gameScore;
         
     }
     if((head.y+20) >= canvas.height) {
@@ -309,9 +308,6 @@ function changedDown() {
 
     if(gameIsLive === false) {
         cancelAnimationFrame(downId)
-        head.x = 0;
-        head.y = 0;
-        snake = []
         alert(`game over`);
         document.body.removeEventListener('keydown', changeDirection )
         start.addEventListener('click', gameStart)
