@@ -1,11 +1,11 @@
-console.log("hello")
+
 
 //----------iModel
 //----------Glue (connection to the View - DOM)
 
 const canvas = document.querySelector("#canvas")
 const ctx = canvas.getContext('2d');
-const button = document.querySelector('#start')
+const start = document.querySelector('#start')
 const scoreText = document.querySelector('#scoreText')
 const scoreNum = document.querySelector('#scoreNum')
 //----------Constants (lookup data structures - that don't change)
@@ -15,16 +15,7 @@ const head = {
     dx: 3,
     dy: 3,
 }
-const pretail = {
-    x: 20,
-    y: 0,
 
-}
-const tail = {
-    x: 0,
-    y: 0,
-
-}
 const food = {
     x: -1,
     y: -1,
@@ -50,7 +41,6 @@ let upId = 0;
 let rightId = 0;
 let leftId = 0;
 let downId = 0;
-let bodyCount = 2;
 let gameIsLive = false;
 
 
@@ -62,10 +52,29 @@ let gameIsLive = false;
 
 //----------Event Listeners 
 //keydown 
-
+start.addEventListener('click', gameStart)
 
 
 //----------CONTROLLER  (Functions)
+//----------initialize all state, then call render (means to display or visualize data
+function gameStart(){ //this is the game loop
+    gameIsLive = true;
+    head.x = 0;
+    head.y = 0;
+    snake = []
+    //console.log(gameIsLive)
+    
+    if (gameIsLive === true){
+        //console.log(`if true`)
+        document.body.addEventListener('keydown', changeDirection);
+        start.removeEventListener('click', gameStart)
+        drawsnake()
+
+    }
+    if (gameIsLive === false){
+        
+    }
+}
 function drawsnake(){
     ctx.fillStyle='#6FFFE9';
     ctx.fillRect(head.x, head.y, 20, 20)
@@ -75,18 +84,7 @@ function drawsnake(){
         ctx.fillRect(snake[i].x, snake[i].y, 20, 20);
     }
 }
-// function moveBody() {
-//     const bodyPart = {
-//         x: head.x-20, 
-//         y: head.y, 
-//         dx: head.dx, 
-//         dy: head.dy,
-//     }
-//     snake.push(bodyPart)
-//     if(snake.length > bodyCount) {
-//         snake.shift()
-//     }
-// }
+
 function growBodyFromLeft(){
     const bodyPart = {
         x: head.x-20, 
@@ -94,7 +92,7 @@ function growBodyFromLeft(){
   
     }
     snake.push(bodyPart)
-    console.log(snake)
+    //console.log(snake)
  }
 function growBodyFromRight(){
     const bodyPart = {
@@ -103,7 +101,7 @@ function growBodyFromRight(){
  
     }
     snake.push(bodyPart)
-    console.log(snake)
+    //console.log(snake)
  }
 function growBodyFromBelow(){
     const bodyPart = {
@@ -112,7 +110,7 @@ function growBodyFromBelow(){
 
     }
     snake.push(bodyPart)
-    console.log(snake)
+    //console.log(snake)
  }
 function growBodyFromAbove(){
     const bodyPart = {
@@ -121,7 +119,7 @@ function growBodyFromAbove(){
   
     }
     snake.push(bodyPart)
-    console.log(snake)
+    //console.log(snake)
  }
 //control movement 
 //once key is pressed, looks for which key is pressed and then change direction accordingly 
@@ -129,22 +127,22 @@ function changeDirection(pressedKey) {
     if (pressedKey.keyCode === 37){
         //move to the left
         changedLeft()
-        console.log(pressedKey);
+        //console.log(pressedKey);
     }
     if (pressedKey.keyCode === 38){
         //move up
         changedUp();
-        console.log(pressedKey);
+        //console.log(pressedKey);
     }
     if (pressedKey.keyCode === 39){
         //move to the right   
         changedRight();
-        console.log(pressedKey);
+        //console.log(pressedKey);
     }
     if (pressedKey.keyCode === 40){
         //move down
         changedDown()
-        console.log(pressedKey);
+        //console.log(pressedKey);
     }
 }
 //create random objects on the gameSpace 
@@ -192,12 +190,11 @@ function changedRight() {
     
     for (let i = 0; i < snake.length; i++){
         if (checkGeneralCollision(head, snake[i]) === true){
-            alert(`gameover`)
-            rightId = cancelAnimationFrame(changedRight)
             head.x = 0;
             head.y = 0;
-            gameIsLive = false;
             snake = []
+            gameIsLive = false;
+            console.log(gameIsLive);
         }
     }
     if (checkGeneralCollision(head, food) === true){
@@ -210,21 +207,26 @@ function changedRight() {
     noAcceleration();
 
     rightId = window.requestAnimationFrame(changedRight);
+
+    if(gameIsLive === false) {
+        cancelAnimationFrame(rightId)
+        head.x = 0;
+        head.y = 0;
+        snake = []
+        alert(`game over`);
+        document.body.removeEventListener('keydown', changeDirection )
+        start.addEventListener('click', gameStart)
+    }
 }
 function changedUp() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();    
     keepFood();
-    head.dy = 3;
     head.y += -head.dy;
     for (let i = 0; i < snake.length; i++){
         if (checkGeneralCollision(head, snake[i]) === true){
-            alert(`gameover`)
-            noAcceleration();
-            head.x = 0;
-            head.y = 0;
-            snake = []
-            head.dy = 0;
+            gameIsLive = false;
+            console.log(gameIsLive);
         }
     }
     if (checkGeneralCollision(head, food) === true){
@@ -235,23 +237,29 @@ function changedUp() {
         head.y = canvas.height-20;
     }
     noAcceleration();
+
     upId = window.requestAnimationFrame(changedUp);
+
+    if(gameIsLive === false) {
+        cancelAnimationFrame(upId)
+        head.x = 0;
+        head.y = 0;
+        snake = []
+        alert(`game over`);
+        document.body.removeEventListener('keydown', changeDirection )
+        start.addEventListener('click', gameStart)
+    }
     
 }
 function changedLeft() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();    
     keepFood();
-    head.dx = 3;
     head.x += -head.dx;
     for (let i = 0; i < snake.length; i++){
         if (checkGeneralCollision(head, snake[i]) === true){
-            alert(`gameover`)
-            noAcceleration();
-            head.x = 0;
-            head.y = 0;
-            snake = []
-            head.dx = 0; 
+            gameIsLive = false;
+            console.log(gameIsLive);
         }
     }
     
@@ -263,21 +271,28 @@ function changedLeft() {
         head.x = canvas.width-20;
     }
     noAcceleration();
+
     leftId = window.requestAnimationFrame(changedLeft);
+
+    if(gameIsLive === false) {
+        cancelAnimationFrame(leftId)
+        head.x = 0;
+        head.y = 0;
+        snake = []
+        alert(`game over`);
+        document.body.removeEventListener('keydown', changeDirection )
+        start.addEventListener('click', gameStart)
+    }
 }
 function changedDown() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();
     keepFood();
-    head.dy = 3
     head.y += head.dy;
     for (let i = 0; i < snake.length; i++){
         if (checkGeneralCollision(head, snake[i]) === true){
-            alert(`gameover`)
-            noAcceleration();
-            head.x = 0;
-            head.y = 0;
-            snake = []
+            gameIsLive = false;
+            console.log(gameIsLive);
         }
     }
     if (checkGeneralCollision(head, food) === true){
@@ -289,7 +304,18 @@ function changedDown() {
         head.y = 0;
     }
     noAcceleration();
+
     downId = window.requestAnimationFrame(changedDown);
+
+    if(gameIsLive === false) {
+        cancelAnimationFrame(downId)
+        head.x = 0;
+        head.y = 0;
+        snake = []
+        alert(`game over`);
+        document.body.removeEventListener('keydown', changeDirection )
+        start.addEventListener('click', gameStart)
+    }
 }
 
 function noAcceleration() {
@@ -307,24 +333,7 @@ function noAcceleration() {
     }
 }
 
-//----------initialize all state, then call render (means to display or visualize data
-function gameStart(){ //this is the game loop
-    gameIsLive = true;
-    document.body.addEventListener('keydown', changeDirection);
-    drawsnake()
-    createFoodSpot()    
-    console.log(snake)
-    if(gameisLive = false){
-        noAcceleration
-
-    }
-   
-
-}
 
 
-for (let i = 0; i < snake.length; i++){
-    if (checkGeneralCollision(head, snake[i]) === true){
-        alert(`gameover`)
-    }
-}
+
+
