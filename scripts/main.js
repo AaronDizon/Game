@@ -16,24 +16,23 @@ const head = {
     dy: 3,
 }
 
-const food = {
-    x: -1,
-    y: -1,
-}
 
-class Square {
-    construction(x, y,){
-        this.x = x;
-        this.y = y;
+// class Square {
+//     construction(x, y,){
+//         this.x = x;
+//         this.y = y;
 
-    }
-}
+//     }
+// }
 
 
 let snake =[];
 // snake.push(pretail)
 // snake.push(tail)
-
+let food = {
+    x: 200,
+    y: 200,
+}
 
 console.log(snake);
 //----------State Variables (state is the data that changes as program runs)
@@ -43,12 +42,14 @@ let leftId = 0;
 let downId = 0;
 let gameIsLive = false;
 let gameScore = 0;
+let foodX;
+let foodY;
 
 //make a class with the 
 
 //----------View
 //----------Cache (to remember) DOM Elements (if they are "touched" more than once)
-
+scoreNum.innerHTML = gameScore;
 
 //----------Event Listeners 
 //keydown 
@@ -153,7 +154,7 @@ function changeDirection(pressedKey) {
 function createFoodSpot() {
     ctx.fillStyle='#9a031e'
     food.x = Math.floor(Math.random()*380) + 1
-    food.y = Math.floor(Math.random()*380) + 1
+    food.y= Math.floor(Math.random()*380) + 1
     
 }
 function keepFood() {
