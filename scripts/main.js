@@ -5,7 +5,9 @@ console.log("hello")
 
 const canvas = document.querySelector("#canvas")
 const ctx = canvas.getContext('2d');
-
+const button = document.querySelector('#start')
+const scoreText = document.querySelector('#scoreText')
+const scoreNum = document.querySelector('#scoreNum')
 //----------Constants (lookup data structures - that don't change)
 const head = {
     x: 0,
@@ -49,6 +51,7 @@ let rightId = 0;
 let leftId = 0;
 let downId = 0;
 let bodyCount = 2;
+let gameIsLive = false;
 
 
 //make a class with the 
@@ -137,8 +140,6 @@ function changeDirection(pressedKey) {
         //move to the right   
         changedRight();
         console.log(pressedKey);
-        console.log(head);
-        console.log(snake);
     }
     if (pressedKey.keyCode === 40){
         //move down
@@ -188,27 +189,25 @@ function changedRight() {
     drawsnake();
     keepFood();
     head.x += head.dx;
-
     
-    // for (let i = 1; i < snake.length; i++){
-    //     snake[i].y = snake[i-1].y;
-    //     snake[i].x = snake[i-1].x;
-    // }
-    
-    // snake[0].x = (head.x-20)
-    // snake[0].y = (head.y)
-    
-   
-
+    for (let i = 0; i < snake.length; i++){
+        if (checkGeneralCollision(head, snake[i]) === true){
+            alert(`gameover`)
+            rightId = cancelAnimationFrame(changedRight)
+            head.x = 0;
+            head.y = 0;
+            gameIsLive = false;
+            snake = []
+        }
+    }
     if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
         growBodyFromLeft()
-        //accelerate()
     }
     if((head.x+20) >= canvas.width){
         head.x = 0;
     }
-    noAccelerationOnPress();
+    noAcceleration();
 
     rightId = window.requestAnimationFrame(changedRight);
 }
@@ -216,26 +215,26 @@ function changedUp() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();    
     keepFood();
+    head.dy = 3;
     head.y += -head.dy;
-    // for (let i = 1; i < snake.length; i++){
-    //     if (i )
-    //     snake[i].y = snake[i-1].y;
-    //     snake[i].x = snake[i-1].x;
-    // }
-    
-    // snake[0].x = (head.x)
-    // snake[0].y = (head.y+20)
-    
-
+    for (let i = 0; i < snake.length; i++){
+        if (checkGeneralCollision(head, snake[i]) === true){
+            alert(`gameover`)
+            noAcceleration();
+            head.x = 0;
+            head.y = 0;
+            snake = []
+            head.dy = 0;
+        }
+    }
     if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
         growBodyFromBelow()
-        //accelerate()
     }   
     if(head.y <= 0) {
         head.y = canvas.height-20;
     }
-    noAccelerationOnPress();
+    noAcceleration();
     upId = window.requestAnimationFrame(changedUp);
     
 }
@@ -243,57 +242,57 @@ function changedLeft() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();    
     keepFood();
+    head.dx = 3;
     head.x += -head.dx;
-    // for (let i = 1; i < snake.length; i++){
-    //     if (i )
-    //     snake[i].y = snake[i-1].y;
-    //     snake[i].x = snake[i-1].x;
-    // }
-    
-    // snake[0].x = (head.x+20)
-    // snake[0].y = (head.y)
+    for (let i = 0; i < snake.length; i++){
+        if (checkGeneralCollision(head, snake[i]) === true){
+            alert(`gameover`)
+            noAcceleration();
+            head.x = 0;
+            head.y = 0;
+            snake = []
+            head.dx = 0; 
+        }
+    }
     
     if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
         growBodyFromRight()
-        
-        //accelerate()
     }    
     if(head.x <= 0) {
         head.x = canvas.width-20;
     }
-    noAccelerationOnPress();
+    noAcceleration();
     leftId = window.requestAnimationFrame(changedLeft);
 }
 function changedDown() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawsnake();
     keepFood();
-    
+    head.dy = 3
     head.y += head.dy;
-    // for (let i = 1; i < snake.length; i++){
-    //     if (i )
-    //     snake[i].y = snake[i-1].y;
-    //     snake[i].x = snake[i-1].x;
-    // }
-    
-    // snake[0].x = (head.x)
-    // snake[0].y = (head.y-20)
-   
-
+    for (let i = 0; i < snake.length; i++){
+        if (checkGeneralCollision(head, snake[i]) === true){
+            alert(`gameover`)
+            noAcceleration();
+            head.x = 0;
+            head.y = 0;
+            snake = []
+        }
+    }
     if (checkGeneralCollision(head, food) === true){
         createFoodSpot()
         growBodyFromAbove()
-        //accelerate()
+        
     }
     if((head.y+20) >= canvas.height) {
         head.y = 0;
     }
-    noAccelerationOnPress();
+    noAcceleration();
     downId = window.requestAnimationFrame(changedDown);
 }
 
-function noAccelerationOnPress() {
+function noAcceleration() {
     if(leftId !== 0){
         cancelAnimationFrame(leftId)
     }
@@ -310,16 +309,22 @@ function noAccelerationOnPress() {
 
 //----------initialize all state, then call render (means to display or visualize data
 function gameStart(){ //this is the game loop
+    gameIsLive = true;
     document.body.addEventListener('keydown', changeDirection);
     drawsnake()
     createFoodSpot()    
     console.log(snake)
+    if(gameisLive = false){
+        noAcceleration
+
+    }
+   
 
 }
-gameStart()
 
-// for (let i = 0; i < snake.length; i++){
-//     if (checkGeneralCollision(head, snake[i]) === true){
-//         alert(`gameover`)
-//     }
-// }
+
+for (let i = 0; i < snake.length; i++){
+    if (checkGeneralCollision(head, snake[i]) === true){
+        alert(`gameover`)
+    }
+}
