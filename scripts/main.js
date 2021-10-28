@@ -12,8 +12,8 @@ const scoreNum = document.querySelector('#scoreNum')
 const head = {
     x: 0,
     y: 0,
-    dx: 3,
-    dy: 3,
+    dx: 2,
+    dy: 2,
 }
 
 
@@ -91,7 +91,7 @@ function drawsnake(){
 
 function growBodyFromLeft(){
     const bodyPart = {
-        x: head.x-20, 
+        x: head.x-21, 
         y: head.y, 
   
     }
@@ -100,7 +100,7 @@ function growBodyFromLeft(){
  }
 function growBodyFromRight(){
     const bodyPart = {
-        x: head.x+20, 
+        x: head.x+21, 
         y: head.y, 
  
     }
@@ -110,7 +110,7 @@ function growBodyFromRight(){
 function growBodyFromBelow(){
     const bodyPart = {
         x: head.x, 
-        y: head.y+20, 
+        y: head.y+21, 
 
     }
     snake.push(bodyPart)
@@ -119,7 +119,7 @@ function growBodyFromBelow(){
 function growBodyFromAbove(){
     const bodyPart = {
         x: head.x, 
-        y: head.y-20, 
+        y: head.y-21, 
   
     }
     snake.push(bodyPart)
@@ -165,20 +165,33 @@ function keepFood() {
 //detect collision of snake head to objects
     //if collision is with object on gameSpace, then append that object to the body
     //if collision is with body, then game over
-//
-// function checkCollision (){
-//     if((head.x+20) >= food.x && (head.x+20) <= (food.x+20) && head.y > food.y && head.y < (food.y+20) ||  
-//     (head.x+20) >= food.x && (head.x+20) <= (food.x+20) && (head.y+20)>=food.y && (head.y+20) <= (food.y+20)||
-//     head.x >= food.x && head.x <= (food.x+20) && head.y >= food.y && head.y <= (food.y+20)){
+
         
         
 function checkGeneralCollision(head1, head2) {
-    if((head1.x+20) >= head2.x && (head1.x+20) <= (head2.x+20) && head1.y > head2.y && head1.y < (head2.y+20) || 
-    (head1.x+20) >= head2.x && (head1.x+20) <= (head2.x+20) && (head.y+20)>=head2.y && (head.y+20) <= (head2.y+20)||
-    head1.x >= head2.x && head1.x <= (head2.x+20) && head1.y >= head2.y && head1.y <= (head2.y+20)){
+    if((head1.x+20) >= head2.x && (head1.x+20) <= (head2.x+20) && head1.y >= head2.y && head1.y <= (head2.y+20) || 
+    (head1.x+20) >= head2.x && (head1.x+20) <= (head2.x+20) && (head.y+20)>=head2.y && (head.y+20) <= (head2.y+20) ||
+    head1.x >= head2.x && head1.x <= (head2.x+20) && head1.y >= head2.y && head1.y <= (head2.y+20) ||
+    head1.x <= (head2.y+20) && head1.x >= head2.x && head1.y <= head2.y && (head1.y+20) <= (head2.y+20)||
+    (head1.y+20) >= head2.y && (head1.y+20) <= (head2.y+20) && head1.x >= head2.x && (head1.x+20) >= (head2.x+20)) 
+
+    
+    {
         return true;
     }
 }
+// function checkGeneralCollision(head1, head2) {
+//     if((head1.x+20) === head2.x && head1.y > head2.y && head1.y < (head2.y+20) || 
+//     (head1.x+20) === head2.x && (head1.y+20) > head2.y && (head1.y+20) < (head2.y+20)||
+//     head1.x === (head2.x+20) && head1.y < head2.y && head1.y < (head2.y+20)||
+//     head1.x === (head2.x+20) && (head1.y+20) > head2.y && (head1.y+20) < (head2.y+20)||
+//     head1.y === (head2.y+20) && head1.x > head2.x && head1.x < (head2.x+20)||
+//     head1.y === (head2.y+20) && (head1.x+20) > head2.x && (head1.x+20)  (head2.x+20) ||
+//     (head1.y+20) > head2.y && head1.x > head2.x && head1.x < (head2.x+20)||
+//     (head1.y+20) === head2.y && (head1.x+20) > head2.x && (head1.x+20) < (head2.x+20)){
+//         return true;
+//     }
+// }
 function accelerate() {
  
      if(head.dx < 8 && head.dy < 8){
