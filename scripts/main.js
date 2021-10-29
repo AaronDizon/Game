@@ -194,6 +194,10 @@ function changedRight() {
     drawsnake();
     keepFood();
     head.x += head.dx;
+    if (gameScore === 5){
+        head.dx = 4;
+        head.dy = 4; 
+    }
     if (gameScore === 10){
         head.dx = 5;
         head.dy = 5; 
@@ -230,6 +234,10 @@ function changedUp() {
     drawsnake();    
     keepFood();
     head.y += -head.dy;
+    if (gameScore === 5){
+        head.dx = 4;
+        head.dy = 4; 
+    }
     if (gameScore === 10){
         head.dx = 5;
         head.dy = 5; 
@@ -266,6 +274,10 @@ function changedLeft() {
     drawsnake();    
     keepFood();
     head.x += -head.dx;
+    if (gameScore === 5){
+        head.dx = 4;
+        head.dy = 4; 
+    }
     if (gameScore === 10){
         head.dx = 5;
         head.dy = 5; 
@@ -302,6 +314,10 @@ function changedDown() {
     drawsnake();
     keepFood();
     head.y += head.dy;
+    if (gameScore === 5){
+        head.dx = 4;
+        head.dy = 4; 
+    }
     if (gameScore === 10){
         head.dx = 5;
         head.dy = 5; 
