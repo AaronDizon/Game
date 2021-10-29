@@ -1,5 +1,7 @@
 # Lizard Game
 
+game can be viewed at: https://dafthappy.github.io/Game/
+
 ###Overview
 The game took inspiration from the classic snake game. In short, you navigate the lizard and help it eat food. After the lizard eats food, it grows and sheds its skin. I picked this game becuase its a classic game, worthy to pay tribute as well as it proving to use multiple js elements that I've learned from the course. 
 
