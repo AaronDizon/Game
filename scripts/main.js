@@ -12,8 +12,8 @@ const scoreNum = document.querySelector('#scoreNum')
 const head = {
     x: 0,
     y: 0,
-    dx: 2,
-    dy: 2,
+    dx: 3,
+    dy: 3,
 }
 
 
@@ -73,6 +73,7 @@ function gameStart(){ //this is the game loop
         document.body.addEventListener('keydown', changeDirection);
         start.removeEventListener('click', gameStart)
         drawsnake()
+       
 
     }
     if (gameIsLive === false){
@@ -190,6 +191,10 @@ function changedRight() {
     drawsnake();
     keepFood();
     head.x += head.dx;
+    if (gameScore === 10){
+        head.dx = 5;
+        head.dy = 5; 
+    }
     
     for (let i = 0; i < snake.length; i++){
         if (checkGeneralCollision(head, snake[i]) === true){
@@ -222,6 +227,10 @@ function changedUp() {
     drawsnake();    
     keepFood();
     head.y += -head.dy;
+    if (gameScore === 10){
+        head.dx = 5;
+        head.dy = 5; 
+    }
     for (let i = 0; i < snake.length; i++){
         if (checkGeneralCollision(head, snake[i]) === true){
             gameIsLive = false;
@@ -254,6 +263,10 @@ function changedLeft() {
     drawsnake();    
     keepFood();
     head.x += -head.dx;
+    if (gameScore === 10){
+        head.dx = 5;
+        head.dy = 5; 
+    }
     for (let i = 0; i < snake.length; i++){
         if (checkGeneralCollision(head, snake[i]) === true){
             gameIsLive = false;
@@ -286,6 +299,10 @@ function changedDown() {
     drawsnake();
     keepFood();
     head.y += head.dy;
+    if (gameScore === 10){
+        head.dx = 5;
+        head.dy = 5; 
+    }
     for (let i = 0; i < snake.length; i++){
         if (checkGeneralCollision(head, snake[i]) === true){
             gameIsLive = false;
