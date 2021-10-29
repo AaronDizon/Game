@@ -17,21 +17,14 @@ const head = {
 }
 
 
-// class Square {
-//     construction(x, y,){
-//         this.x = x;
-//         this.y = y;
 
-//     }
-// }
 
 
 let snake =[];
-// snake.push(pretail)
-// snake.push(tail)
+
 let food = {
-    x: 200,
-    y: 200,
+    x: Math.floor(Math.random()*380) + 1,
+    y: Math.floor(Math.random()*380) + 1,
 }
 
 console.log(snake);
@@ -115,7 +108,6 @@ function growBodyFromBelow(){
     const bodyPart = {
         x: head.x, 
         y: head.y+21, 
-
     }
     snake.push(bodyPart)
     //console.log(snake)
@@ -124,7 +116,6 @@ function growBodyFromAbove(){
     const bodyPart = {
         x: head.x, 
         y: head.y-21, 
-  
     }
     snake.push(bodyPart)
     //console.log(snake)
@@ -135,22 +126,18 @@ function changeDirection(pressedKey) {
     if (pressedKey.keyCode === 37){
         //move to the left
         changedLeft()
-        //console.log(pressedKey);
     }
     if (pressedKey.keyCode === 38){
         //move up
         changedUp();
-        //console.log(pressedKey);
     }
     if (pressedKey.keyCode === 39){
         //move to the right   
         changedRight();
-        //console.log(pressedKey);
     }
     if (pressedKey.keyCode === 40){
         //move down
         changedDown()
-        //console.log(pressedKey);
     }
 }
 //create random objects on the gameSpace 
@@ -170,8 +157,6 @@ function keepFood() {
     //if collision is with object on gameSpace, then append that object to the body
     //if collision is with body, then game over
 
-        
-        
 function checkGeneralCollision(head1, head2) {
     if((head1.x+20) >= head2.x && (head1.x+20) <= (head2.x+20) && head1.y >= head2.y && head1.y <= (head2.y+20) || 
     (head1.x+20) >= head2.x && (head1.x+20) <= (head2.x+20) && (head.y+20)>=head2.y && (head1.y+20) <= (head2.y+20) ||
