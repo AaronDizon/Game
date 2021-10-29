@@ -63,6 +63,9 @@ function gameStart(){ //this is the game loop
     gameIsLive = true;
     head.x = 0;
     head.y = 0;
+    head.dx = 3;
+    head.dy = 3;
+
     snake = []
     gameScore = 0;
     scoreNum.innerHTML = gameScore;
