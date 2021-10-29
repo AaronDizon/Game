@@ -92,7 +92,7 @@ function drawsnake(){
 function growBodyFromLeft(){
     const bodyPart = {
         x: head.x-21, 
-        y: head.y, 
+        y: head.y,
   
     }
     snake.push(bodyPart)
@@ -170,28 +170,14 @@ function keepFood() {
         
 function checkGeneralCollision(head1, head2) {
     if((head1.x+20) >= head2.x && (head1.x+20) <= (head2.x+20) && head1.y >= head2.y && head1.y <= (head2.y+20) || 
-    (head1.x+20) >= head2.x && (head1.x+20) <= (head2.x+20) && (head.y+20)>=head2.y && (head.y+20) <= (head2.y+20) ||
-    head1.x >= head2.x && head1.x <= (head2.x+20) && head1.y >= head2.y && head1.y <= (head2.y+20) ||
-    head1.x <= (head2.y+20) && head1.x >= head2.x && head1.y <= head2.y && (head1.y+20) <= (head2.y+20)||
-    (head1.y+20) >= head2.y && (head1.y+20) <= (head2.y+20) && head1.x >= head2.x && (head1.x+20) >= (head2.x+20)) 
-
-    
-    {
+    (head1.x+20) >= head2.x && (head1.x+20) <= (head2.x+20) && (head.y+20)>=head2.y && (head1.y+20) <= (head2.y+20) ||
+    head1.x >= head2.x && head1.x <= (head2.x+20) && head1.y >= head2.y && head1.y <= (head2.y+20)||
+    head1.x >= head2.x && head1.x <= (head2.x+20) && head1.y <= head2.y && (head1.y+20) >= (head2.y)
+    ){
         return true;
     }
 }
-// function checkGeneralCollision(head1, head2) {
-//     if((head1.x+20) === head2.x && head1.y > head2.y && head1.y < (head2.y+20) || 
-//     (head1.x+20) === head2.x && (head1.y+20) > head2.y && (head1.y+20) < (head2.y+20)||
-//     head1.x === (head2.x+20) && head1.y < head2.y && head1.y < (head2.y+20)||
-//     head1.x === (head2.x+20) && (head1.y+20) > head2.y && (head1.y+20) < (head2.y+20)||
-//     head1.y === (head2.y+20) && head1.x > head2.x && head1.x < (head2.x+20)||
-//     head1.y === (head2.y+20) && (head1.x+20) > head2.x && (head1.x+20)  (head2.x+20) ||
-//     (head1.y+20) > head2.y && head1.x > head2.x && head1.x < (head2.x+20)||
-//     (head1.y+20) === head2.y && (head1.x+20) > head2.x && (head1.x+20) < (head2.x+20)){
-//         return true;
-//     }
-// }
+
 function accelerate() {
  
      if(head.dx < 8 && head.dy < 8){
