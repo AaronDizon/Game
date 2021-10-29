@@ -16,18 +16,14 @@ const head = {
     dy: 3,
 }
 
+let lizard =[];
 
-
-
-
-let snake =[];
-
-let food = {
+const food = {
     x: Math.floor(Math.random()*380) + 1,
     y: Math.floor(Math.random()*380) + 1,
 }
 
-console.log(snake);
+console.log(lizard);
 //----------State Variables (state is the data that changes as program runs)
 let upId = 0;
 let rightId = 0;
@@ -59,7 +55,7 @@ function gameStart(){ //this is the game loop
     head.dx = 3;
     head.dy = 3;
 
-    snake = []
+    lizard = []
     gameScore = 0;
     scoreNum.innerHTML = gameScore;
     //console.log(gameIsLive)
@@ -68,7 +64,7 @@ function gameStart(){ //this is the game loop
         //console.log(`if true`)
         document.body.addEventListener('keydown', changeDirection);
         start.removeEventListener('click', gameStart)
-        drawsnake()
+        drawlizard()
        
 
     }
@@ -76,13 +72,13 @@ function gameStart(){ //this is the game loop
         
     }
 }
-function drawsnake(){
+function drawlizard(){
     ctx.fillStyle='#6FFFE9';
     ctx.fillRect(head.x, head.y, 20, 20)
     ctx.fillStyle='white';
 
-    for (i = 0; i < snake.length; i++){
-        ctx.fillRect(snake[i].x, snake[i].y, 20, 20);
+    for (i = 0; i < lizard.length; i++){
+        ctx.fillRect(lizard[i].x, lizard[i].y, 20, 20);
     }
 }
 
@@ -92,8 +88,8 @@ function growBodyFromLeft(){
         y: head.y,
   
     }
-    snake.push(bodyPart)
-    //console.log(snake)
+    lizard.push(bodyPart)
+    //console.log(lizard)
  }
 function growBodyFromRight(){
     const bodyPart = {
@@ -101,24 +97,24 @@ function growBodyFromRight(){
         y: head.y, 
  
     }
-    snake.push(bodyPart)
-    //console.log(snake)
+    lizard.push(bodyPart)
+    //console.log(lizard)
  }
 function growBodyFromBelow(){
     const bodyPart = {
         x: head.x, 
         y: head.y+21, 
     }
-    snake.push(bodyPart)
-    //console.log(snake)
+    lizard.push(bodyPart)
+    //console.log(lizard)
  }
 function growBodyFromAbove(){
     const bodyPart = {
         x: head.x, 
         y: head.y-21, 
     }
-    snake.push(bodyPart)
-    //console.log(snake)
+    lizard.push(bodyPart)
+    //console.log(lizard)
  }
 //control movement 
 //once key is pressed, looks for which key is pressed and then change direction accordingly 
@@ -153,7 +149,7 @@ function keepFood() {
     ctx.fillRect( food.x, food.y, 20, 20)
 }
 
-//detect collision of snake head to objects
+//detect collision of lizard head to objects
     //if collision is with object on gameSpace, then append that object to the body
     //if collision is with body, then game over
 
@@ -167,16 +163,16 @@ function checkGeneralCollision(head1, head2) {
     }
 }
 
-function accelerate() {
+// function accelerate() {
  
-     if(head.dx < 8 && head.dy < 8){
-         head.dx += 1;
-         head.dy +=1;
-     }
-}
+//      if(head.dx < 8 && head.dy < 8){
+//          head.dx += 1;
+//          head.dy +=1;
+//      }
+// }
 function changedRight() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawsnake();
+    drawlizard();
     keepFood();
     head.x += head.dx;
     if (gameScore === 5){
@@ -188,8 +184,8 @@ function changedRight() {
         head.dy = 5; 
     }
     
-    for (let i = 0; i < snake.length; i++){
-        if (checkGeneralCollision(head, snake[i]) === true){
+    for (let i = 0; i < lizard.length; i++){
+        if (checkGeneralCollision(head, lizard[i]) === true){
             gameIsLive = false;
             console.log(gameIsLive);
         }
@@ -216,7 +212,7 @@ function changedRight() {
 }
 function changedUp() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawsnake();    
+    drawlizard();    
     keepFood();
     head.y += -head.dy;
     if (gameScore === 5){
@@ -227,8 +223,8 @@ function changedUp() {
         head.dx = 5;
         head.dy = 5; 
     }
-    for (let i = 0; i < snake.length; i++){
-        if (checkGeneralCollision(head, snake[i]) === true){
+    for (let i = 0; i < lizard.length; i++){
+        if (checkGeneralCollision(head, lizard[i]) === true){
             gameIsLive = false;
             console.log(gameIsLive);
         }
@@ -256,7 +252,7 @@ function changedUp() {
 }
 function changedLeft() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawsnake();    
+    drawlizard();    
     keepFood();
     head.x += -head.dx;
     if (gameScore === 5){
@@ -267,8 +263,8 @@ function changedLeft() {
         head.dx = 5;
         head.dy = 5; 
     }
-    for (let i = 0; i < snake.length; i++){
-        if (checkGeneralCollision(head, snake[i]) === true){
+    for (let i = 0; i < lizard.length; i++){
+        if (checkGeneralCollision(head, lizard[i]) === true){
             gameIsLive = false;
             console.log(gameIsLive);
         }
@@ -296,7 +292,7 @@ function changedLeft() {
 }
 function changedDown() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawsnake();
+    drawlizard();
     keepFood();
     head.y += head.dy;
     if (gameScore === 5){
@@ -307,8 +303,8 @@ function changedDown() {
         head.dx = 5;
         head.dy = 5; 
     }
-    for (let i = 0; i < snake.length; i++){
-        if (checkGeneralCollision(head, snake[i]) === true){
+    for (let i = 0; i < lizard.length; i++){
+        if (checkGeneralCollision(head, lizard[i]) === true){
             gameIsLive = false;
             console.log(gameIsLive);
         }
